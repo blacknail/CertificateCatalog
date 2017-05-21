@@ -1,0 +1,22 @@
+version: '2'
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1qaz@WSX
+      MYSQL_DATABASE: cert_catalog
+      MYSQL_USER: django
+      MYSQL_PASSWORD: 1qaz2wsx
+    ports:
+      - "3306:3306"
+  dev:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8080
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    links:
+      - db
