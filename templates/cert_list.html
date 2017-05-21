@@ -1,0 +1,62 @@
+{% extends "main.html" %}
+
+{% block title %}Cert list{% endblock %}
+
+{% block content %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+        <th>OU</th>
+        <th>C</th>
+        <th>CN</th>
+        <th>O</th>
+        <th>L</th>
+        <th>ST</th>
+        <th>street</th>
+        <th>title</th>
+        <th>emailAddress</th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cert in certs %}
+      <tr>
+            <td>{{ cert.OU|truncatechars:15 }}</td>
+            <td>{{ cert.C|truncatechars:15 }}</td>
+            <td>{{ cert.CN|truncatechars:15 }}</td>
+            <td>{{ cert.O|truncatechars:15 }}</td>
+            <td>{{ cert.L|truncatechars:15 }}</td>
+            <td>{{ cert.ST|truncatechars:15 }}</td>
+            <td>{{ cert.street|truncatechars:15 }}</td>
+            <td>{{ cert.title|truncatechars:15 }}</td>
+            <td>{{ cert.emailAddress|truncatechars:15 }}</td>
+            <td><a href="{% url "edit_raw" %}?id={{ cert.id }}">edit raw</a> |
+            <a href="{% url "edit_orm" %}?id={{ cert.id }}">edit ORM</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% if certs.has_other_pages %}
+  <ul class="pagination">
+    {% if certs.has_previous %}
+      <li><a href="?page={{ certs.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in certs.paginator.page_range %}
+      {% if certs.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if certs.has_next %}
+      <li><a href="?page={{ certs.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}

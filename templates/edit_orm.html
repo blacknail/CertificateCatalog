@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Cert list{% endblock %}
+
+{% block content %}
+    <form action="{% url 'edit_orm'%}?id={{ cert_id }}" method="post" class="form">
+      {% csrf_token %}
+          {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary">
+          {% bootstrap_icon "star" %} Update
+        </button>
+         <a href="{% url 'cert_list'%}" class="btn btn-default">Cancel</a>
+      {% endbuttons %}
+    </form>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('.datetimepicker').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+        });
+    });
+</script>
+{% endblock content %}
